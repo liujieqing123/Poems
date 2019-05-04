@@ -10,16 +10,18 @@
 				<div class="item_title">使用手机账号登录：</div>
 				<ul>
 					<li>
+						<span class="iconfont icon-youxiang"></span>
 						<input placeholder="输入您的手机号" />
 					</li>
 					<li>
+						<span class="iconfont icon-mima54"></span>
 						<input type="password" placeholder="输入您的密码" />
 					</li>
 				</ul>
 				<div class="ForgetPassword">忘记密码？</div>
 				<div class="login_reg">
 					<button>登录</button>
-					<span>新用户注册</span>
+					<span @click="ToReg">新用户注册</span>
 				</div>
 			</div>
 		</div>
@@ -36,6 +38,11 @@
 	    return {
 	      name:'login'
 	    }
+	  },
+	  methods:{
+		  ToReg(){
+			  this.$router.push('./Reg')
+		  }
 	  }
 	  
 	}
@@ -84,16 +91,27 @@
 						display: flex;
 						justify-content: space-between;
 						align-items: center;
-						input{
-							width: 477px;
-							height: 28px;
+						padding-left: 10px;
+						span{
+							width: 17px;
+							height: 17px;
+							font-size: 17px;
+							color: #ccc;
 						}
+						input{
+							width: 445px;
+							height: 26px;
+						}
+					}
+					li:hover{
+						border: 1px solid @ft1-color;
 					}
 				}
 				.ForgetPassword{
 					color: #1890ff;
 					font-size: 14px;
 					text-align: end;
+					cursor: pointer;
 				}
 				.login_reg{
 					margin-top: 30px;
@@ -104,6 +122,7 @@
 						background: @bg-color;
 						color: #fff;
 						letter-spacing: 4px;
+						cursor: pointer;
 					}
 					span{
 						display: inline-block;
@@ -115,6 +134,7 @@
 						text-align: end;
 						line-height: 16px;
 						margin-left: 10px;
+						cursor: pointer;
 					}
 				}
 			}
