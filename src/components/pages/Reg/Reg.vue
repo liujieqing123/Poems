@@ -3,7 +3,7 @@
 		<div class="content">
 			<div class="title">
 				<div class="logo">
-					<img src="../../../../static/images/ruogu_logo.png" />
+					<img src="../../../../static/images/20190511115803.png" />
 				</div>
 			</div>
 			<div class="item">

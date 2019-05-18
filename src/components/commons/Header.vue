@@ -4,7 +4,7 @@
 			<div class="container">
 				<div class="header_left">
 					<div class="logo" @click="ToMy">
-						<img src="../../../static/images/ruogu_logo.png" />
+						<img src="../../../static/images/20190511115718.png" />
 					</div>
 					<ul>
 						<li @click="ToHome">首页</li>
