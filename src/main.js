@@ -10,6 +10,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.config.productionTip = false
 Vue.use(ElementUI) //全局使用element
 
+import axios from './api/axios';
+Vue.prototype.$axios = axios;
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

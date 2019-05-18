@@ -19,7 +19,8 @@
 					</div>
 				</div>
 				<div class="header_rigth">
-					<button @click="ToLogin">登录</button>
+					<button @click="ToLogin" v-if='login_but_show'>登录</button>
+					<button class='but' @click="ToLogin" v-else>{{username}}</button>
 				</div>
 			</div>
 		</div>
@@ -35,9 +36,23 @@
 	  },
 	  data () {
 	    return {
-	      name:'header'
+				name:'header',
+				login_but_show: true,
+				username: ''
 	    }
-	  },
+		},
+		created() {
+
+		},
+		mounted() {
+			this.username = sessionStorage.getItem('username');
+
+			if(this.username) {
+				this.login_but_show = false;
+			}else {
+				this.login_but_show = true;
+			}
+		},         
 	  methods:{
 		  ToHome(){
 			  this.$router.push('/Home')
@@ -75,7 +90,7 @@
 			border: 1px solid #ccc;
 			position: fixed;
 			background: #fff;
-			z-index: 9999;
+			z-index: 99;
 			.container{
 				display: flex;
 				justify-content: space-between;
@@ -146,6 +161,12 @@
 						text-align: center;
 						line-height: 32px;
 						cursor: pointer;
+					}
+					.but {
+						background: rgba(0,0,0,0);
+						color: #333;
+						border-bottom: 1px solid #eee;
+						border-radius: 0;
 					}
 				}
 				

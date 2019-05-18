@@ -11,19 +11,23 @@
 				<ul>
 					<li>
 						<span class="iconfont icon-youxiang"></span>
-						<input placeholder="输入您的手机号" />
+						<input type='text' placeholder="请输入邮箱" v-model='email' @blur='verifyNum'/>
 					</li>
 					<li>
 						<span class="iconfont icon-yonghu1"></span>
-						<input type="password" placeholder="输入您要注册的用户名" />
+						<input type="text" placeholder="请输入您的用户名" v-model='name'/>
 					</li>
 					<li>
 						<span class="iconfont icon-mima54"></span>
-						<input type="password" placeholder="输入您要注册的密码" />
+						<input type="password" placeholder="请输入密码" v-model='pwd'/>
+					</li>
+					<li>
+						<span class="iconfont icon-mima54"></span>
+						<input type="password" placeholder="请确认您的密码" v-model='confirm_pwd' @blur='verifyPwd'/>
 					</li>
 				</ul>
 				<div class="reg_btn">
-					<button>注册</button>
+					<button @click='reg'>注册</button>
 					<div class="tologin" @click="ToLogin">已有账号？切换到登录</div>
 				</div>
 			</div>
@@ -32,6 +36,9 @@
 </template>
 
 <script>
+
+	import apiUrl from '../../../api/api'
+
 	export default {
 	  name: 'Login',
 	  components:{
@@ -39,10 +46,64 @@
 	  },
 	  data () {
 	    return {
-	      name:'login'
+				email: '',
+				name: '',
+				pwd: '',
+				confirm_pwd: '',
 	    }
 	  },
 	  methods:{
+			// 点击注册
+			reg() {
+				if(this.email == '' || this.name == '' || this.pwd == '' || this.confirm_pwd == ''){
+					this.$message.error('请填写完整的注册信息');
+					return
+				}
+				this.verifyNum();
+				this.verifyPwd();
+
+				this.$axios({
+					method:'post',
+					url: apiUrl.reg_url,
+					data:{
+						username: this.name,
+						email: this.email,
+						password: this.pwd
+					}
+				}).then((res) => {
+					if(res.code == 1) {
+						this.$router.push('./Login');
+						this.$message({
+							message: '注册成功，请登录！！',
+							type: 'success'
+						});
+					}
+				})
+			},
+			// 验证手机号
+			verifyNum() {
+				let re = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/; 
+				if(!(re.test(this.email))) {
+					this.$message.error('请输入正确的邮箱');
+					return
+				}
+			},
+			// 验证密码是否一致
+			verifyPwd() {
+				if(this.pwd == ''){
+					this.$message.error('请填写密码');
+					return
+				}
+				if(this.confirm_pwd == ''){
+					this.$message.error('请填写确认密码');
+					return
+				}
+				if(this.pwd != this.confirm_pwd){
+					this.$message.error('密码不一致，请重新输入');
+					this.confirm_pwd = '';
+					return
+				}
+			},
 		  ToLogin(){
 			  this.$router.push('./Login')
 		  }

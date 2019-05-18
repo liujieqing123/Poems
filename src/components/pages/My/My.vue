@@ -18,9 +18,34 @@
 				<div class="container">
 					<div class="publish">
 						<div class="title">标题</div>
-						<el-input v-model="input" placeholder="请输入标题"></el-input>
+						<el-input v-model="title" placeholder="请输入标题"></el-input>
+						<div class="title">概述</div>
+						<el-input v-model="description" placeholder="请输入诗词概述" maxlength="30"></el-input>
+
+						<div class="title">添加配图</div>
+						<p class='hint_text'>提示：只可上传一张图片，点击图片可预览或删除图片</p>
+						<el-upload
+							action="http://47.107.107.212/api/Poem/upload"
+							list-type="picture-card"
+							:on-preview="handlePictureCardPreview"
+							:on-remove="handleRemove"
+							:on-success="uploadSuccess"
+							:multiple="false"
+							:limit="1">
+							<i class="el-icon-plus"></i>
+						</el-upload>
+						<el-dialog :visible.sync="dialogVisible">
+							<img width="100%" :src="dialogImageUrl" alt="">
+						</el-dialog>
+
 						<div class="title">正文</div>
-						<el-input type="textarea" height="100" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入诗词正文" v-model="textarea3">
+						<el-input 
+							type="textarea"  
+							placeholder="请输入诗词正文"
+							show-word-limit 
+							maxlength="800"
+							:rows="30"
+							v-model="textarea_text">
 						</el-input>
 					</div>
 					<div class="sort">
@@ -29,7 +54,7 @@
 							<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 							</el-option>
 						</el-select>
-						<button>发表诗词</button>
+						<button @click='publish'>发表诗词</button>
 						<div class="share_sentence" @click="ToShare">去分享句子</div>
 					</div>
 				</div>
@@ -42,6 +67,9 @@
 <script>
 	import Header from '../../commons/Header.vue'
 	import Footer from '../../commons/Footer.vue'
+
+	import apiUrl from '../../../api/api'
+
 	export default {
 		name: 'My',
 		components: {
@@ -50,32 +78,119 @@
 		},
 		data() {
 			return {
-				input: '',
-				textarea3: '',
-				options: [{
-					value: '选项1',
-					label: '黄金糕'
-				}, {
-					value: '选项2',
-					label: '双皮奶'
-				}, {
-					value: '选项3',
-					label: '蚵仔煎'
-				}, {
-					value: '选项4',
-					label: '龙须面'
-				}, {
-					value: '选项5',
-					label: '北京烤鸭'
-				}],
-				value: ''
-
+				title: '',
+				textarea_text: '',
+				description: '',
+				options: [],
+				value: '',
+				img_url:'',
+				dialogImageUrl: '',
+        dialogVisible: false
 			}
+		},
+		created() {
+			this.getTypeData();
 		},
 		methods: {
 			ToShare(){
 				this.$router.push('/ShareSentence')
-			}
+			},
+			// 获取类目列表
+			getTypeData() {
+				this.$axios({
+					url:apiUrl.PoemCate_url,
+				}).then((res) => {
+					if(res.code == 1) {
+						let typeData = res.data;
+						for(let i=0;i<typeData.length;i++) {
+							let obj={
+								value: typeData[i].id,
+								label: typeData[i].pcate_name,
+							}
+							this.options.push(obj)
+						}
+					}
+				})
+			},
+			// 添加文章
+			addData() {
+				this.$axios({
+					url:apiUrl.poemInfo_url,
+					method: 'post',
+					data: {
+						author: sessionStorage.getItem('username'),
+						title: this.title,
+						content: this.textarea_text,
+						image:this.img_url,
+						description: this.description,
+						pcate_id:this.value,
+					}
+				}).then((res) => {
+					// console.log(res)
+					if(res.code == 1) {
+						this.title = '';
+						this.textarea_text = '';
+						this.description = '';
+						this.value = '';
+						this.handleRemove();
+						this.getTypeData();
+						this.$notify({
+							title: '成功',
+							message: '诗词发表成功',
+							type: 'success'
+						});
+					}
+				})
+			},
+			// 发表
+			publish() {
+				if(this.title == '') {
+					this.$message({
+						message: '请输入文章标题',
+						type: 'warning'
+					});
+					return
+				}
+				if (this.description == '') {
+					this.$message({
+						message: '请填写文章简述',
+						type: 'warning'
+					});
+					return
+				}
+				if (this.textarea_text == '') {
+					this.$message({
+						message: '请填写文章内容',
+						type: 'warning'
+					});
+					return
+				}
+				if (this.value == '') {
+					this.$message({
+						message: '请选择文章分类',
+						type: 'warning'
+					});
+					return
+				}
+				if (this.img_url == '') {
+					this.$message({
+						message: '请上传图片',
+						type: 'warning'
+					});
+					return
+				}
+				this.addData()
+			},
+			uploadSuccess(response, file, fileList) {
+				this.img_url = file.url;
+			},
+			handleRemove(file, fileList) {
+				this.img_url = ''
+      },
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      }
 		}
 
 	}
@@ -162,6 +277,11 @@
 							font-size: 14px;
 							height: 28px;
 							margin-top: 30px;
+						}
+						.hint_text {
+							font-size: 12px;
+							color: #999;
+							margin-bottom: 10px;
 						}
 					}
 

@@ -7,20 +7,20 @@
 				</div>
 			</div>
 			<div class="item">
-				<div class="item_title">使用手机账号登录：</div>
+				<div class="item_title">使用邮箱登录：</div>
 				<ul>
 					<li>
 						<span class="iconfont icon-youxiang"></span>
-						<input placeholder="输入您的手机号" />
+						<input type='text' placeholder="输入您的邮箱" maxlength="11" v-model='email' @blur='verifyNum'/>
 					</li>
 					<li>
 						<span class="iconfont icon-mima54"></span>
-						<input type="password" placeholder="输入您的密码" />
+						<input type="password" placeholder="输入您的密码" v-model='pwd' maxlength="18"/>
 					</li>
 				</ul>
 				<div class="ForgetPassword">忘记密码？</div>
 				<div class="login_reg">
-					<button>登录</button>
+					<button @click='login'>登录</button>
 					<span @click="ToReg">新用户注册</span>
 				</div>
 			</div>
@@ -29,6 +29,9 @@
 </template>
 
 <script>
+
+	import apiUrl from '../../../api/api'
+
 	export default {
 	  name: 'Login',
 	  components:{
@@ -36,10 +39,42 @@
 	  },
 	  data () {
 	    return {
-	      name:'login'
+				name:'login',
+				email: '123@163.com',
+				pwd: '123456'
 	    }
 	  },
 	  methods:{
+			// 点击登录
+			login() {
+				if(this.email == '' || this.pwd == '') {
+					this.$message.error('请填写登录账号/密码');
+					return
+				}
+				this.$axios({
+					method:'post',
+					url: apiUrl.login_url,
+					data:{
+						email: this.email,
+						password: this.pwd
+					}
+				}).then((res) => {
+					if(res.code == 1) {
+						sessionStorage.setItem('user_id',res.data.user_id);
+						sessionStorage.setItem('username',res.data.username);
+						this.$message.success('登录成功');
+						this.$router.replace('./Home');
+					}
+					
+				})
+			},
+			// 验证手机号
+			verifyNum() {
+				let re = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/; 
+				if(!(re.test(this.email))) {
+					this.$message.error('请输入正确的邮箱');
+				}
+			},
 		  ToReg(){
 			  this.$router.push('./Reg')
 		  }

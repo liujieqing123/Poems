@@ -13,27 +13,27 @@
 					<div class="poetry_content">
 						<div class="poetry_article">
 							一
-							</br>
+							<br/>
 							思春望枝头，春来却无声。燕子双双飞，相语望归程。
-							</br>
+							<br/>
 							垂柳丝一把，袅袅如烟雾。雾里望归程，曾是江南处。
-							</br>
+							<br/>
 							风吻花蕾绽，花粉随风散。花粉醉心扉，蝶儿多浪漫。
-							</br>
+							<br/>
 							二
-							</br>
+							<br/>
 							春催花似火，雨洗叶如油。点点成诗句，写入旧时书。
-							</br>
+							<br/>
 							故里梦江南，一路芬芳意。花瓣随风散，又与蝶儿戏。
-							</br>
+							<br/>
 							风卷如轻纱，碎珠尽飞洒。水天一色长，天边飞虹挂。
-							</br>
+							<br/>
 							三
-							</br>
+							<br/>
 							飞花落水中，随水悠悠荡。划破飞虹纱，梦里归程望。
-							</br>
+							<br/>
 							花蕾含苞看，蝶儿飞来恋。花蕾更羞涩，轻轻风中绽。
-							</br>
+							<br/>>
 							又是江南笛，一首思念曲。燕尾双裁过，水波伴低舞。
 						</div>
 						<div class="poetry_picture">
@@ -61,6 +61,9 @@
 <script>
 	import Header from '../../commons/Header.vue'
 	import Footer from '../../commons/Footer.vue'
+
+	import apiUrl from '../../../api/api'
+
 	export default {
 		name: 'DetailsPoetry',
 		components: {
@@ -68,14 +71,31 @@
 		},
 		data() {
 			return {
-				
+				detailData: {}
 	
 			}
+		},
+		created() {
+			this.getData()
 		},
 		methods: {
 			ToMy(){
 				this.$router.push('/My')
-			}
+			},
+			// 获取数据
+			getData() {
+				let Detail_id = this.$route.query.poetryId;
+				this.$axios({
+					url:apiUrl.poemInfo_url,
+					params: {
+						id:Detail_id
+					}
+				}).then((res) => {
+					if(res.code == 1) {
+						this.detailData = res.data;
+					}
+				})
+			},
 		}
 	
 	}

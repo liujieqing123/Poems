@@ -12,116 +12,22 @@
 			<div class="container">
 				<div class="main_content">
 					<div class="tab">
-						<div class="tab_item" @click="curId=0" :class="{'cur':curId === 0}">全部</div>
-						<div class="tab_item" @click="curId=1" :class="{'cur':curId === 1}">唐代</div>
-						<div class="tab_item" @click="curId=2" :class="{'cur':curId === 2}">宋代</div>
-						<div class="tab_item" @click="curId=3" :class="{'cur':curId === 3}">明代</div>
-						<div class="tab_item" @click="curId=4" :class="{'cur':curId === 4}">元代</div>
-						<div class="tab_item" @click="curId=5" :class="{'cur':curId === 5}">清代</div>
-						<div class="tab_item" @click="curId=6" :class="{'cur':curId === 6}">现代</div>
+						<div class="tab_item" @click="select(preiodCateItem_index,preiodCateItem.id)" :class="{'cur':curId == preiodCateItem_index}" v-for='(preiodCateItem,preiodCateItem_index) in preiodCate' :key='preiodCateItem_index'>{{preiodCateItem.pcate_name}}</div>
 					</div>
-					<div class="all_poetry" v-if="curId === 0">
-						<div class="poetry_list">
+					<div class="all_poetry">
+						<div class="poetry_list" v-for='(listItem,index) in Author_list' :key='index'>
 							<div class="poetry_picture">
-								<img src="../../../../static/images/libai.jpg" />
+								<img :src="listItem.image" />
 							</div>
 							<div class="poetry_content">
-								<div class="poetry_title">李白</div>
-								<div class="poetry_intro">李白（701年－762年），字太白，号青莲居士，唐朝浪漫主义诗人，被后人誉为“诗仙”。祖籍陇西成纪(待考)，出生于西域碎叶城，4岁再随父迁至剑南道绵州。李白存世诗文千余篇，有《李太白集》传世。762年病逝，享年61岁。其墓在今安徽当涂，四川江油、湖北安陆有纪念馆。</div>
+								<div class="poetry_title">{{listItem.author}}</div>
+								<div class="poetry_intro">{{listItem.description}}</div>
 							</div>
 						</div>
 						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="recommend_poetry" v-if="curId === 1">
-						<div class="poetry_list">
-							<div class="poetry_picture">
-								<img src="../../../../static/images/86194a2f0b5aa3edf9f3995bbb8713aa.jpg" />
-							</div>
-							<div class="poetry_content">
-								<div class="poetry_title">李白</div>
-								<div class="poetry_intro">李白（701年－762年），字太白，号青莲居士，唐朝浪漫主义诗人，被后人誉为“诗仙”。祖籍陇西成纪(待考)，出生于西域碎叶城，4岁再随父迁至剑南道绵州。李白存世诗文千余篇，有《李太白集》传世。762年病逝，享年61岁。其墓在今安徽当涂，四川江油、湖北安陆有纪念馆。</div>
-							</div>
-						</div>
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="poetry_dynasty" v-if="curId === 2">
-						<div class="poetry_list">
-							<div class="poetry_picture">
-								<img src="../../../../static/images/4a224b4140adbd819acc5cd20d9aedaf.jpg" />
-							</div>
-							<div class="poetry_content">
-								<div class="poetry_title">李白</div>
-								<div class="poetry_intro">李白（701年－762年），字太白，号青莲居士，唐朝浪漫主义诗人，被后人誉为“诗仙”。祖籍陇西成纪(待考)，出生于西域碎叶城，4岁再随父迁至剑南道绵州。李白存世诗文千余篇，有《李太白集》传世。762年病逝，享年61岁。其墓在今安徽当涂，四川江油、湖北安陆有纪念馆。</div>
-							</div>
-						</div>
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="song_poems" v-if="curId === 3">
-						<div class="poetry_list">
-							<div class="poetry_picture">
-								<img src="../../../../static/images/86194a2f0b5aa3edf9f3995bbb8713aa.jpg" />
-							</div>
-							<div class="poetry_content">
-								<div class="poetry_title">李白</div>
-								<div class="poetry_intro">李白（701年－762年），字太白，号青莲居士，唐朝浪漫主义诗人，被后人誉为“诗仙”。祖籍陇西成纪(待考)，出生于西域碎叶城，4岁再随父迁至剑南道绵州。李白存世诗文千余篇，有《李太白集》传世。762年病逝，享年61岁。其墓在今安徽当涂，四川江油、湖北安陆有纪念馆。</div>
-							</div>
-						</div>
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="yuan_works" v-if="curId === 4">
-						<div class="poetry_list">
-							<div class="poetry_picture">
-								<img src="../../../../static/images/4a224b4140adbd819acc5cd20d9aedaf.jpg" />
-							</div>
-							<div class="poetry_content">
-								<div class="poetry_title">李白</div>
-								<div class="poetry_intro">李白（701年－762年），字太白，号青莲居士，唐朝浪漫主义诗人，被后人誉为“诗仙”。祖籍陇西成纪(待考)，出生于西域碎叶城，4岁再随父迁至剑南道绵州。李白存世诗文千余篇，有《李太白集》传世。762年病逝，享年61岁。其墓在今安徽当涂，四川江油、湖北安陆有纪念馆。</div>
-							</div>
-						</div>
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="book_songs" v-if="curId === 5">
-						<div class="poetry_list">
-							<div class="poetry_picture">
-								<img src="../../../../static/images/86194a2f0b5aa3edf9f3995bbb8713aa.jpg" />
-							</div>
-							<div class="poetry_content">
-								<div class="poetry_title">李白</div>
-								<div class="poetry_intro">李白（701年－762年），字太白，号青莲居士，唐朝浪漫主义诗人，被后人誉为“诗仙”。祖籍陇西成纪(待考)，出生于西域碎叶城，4岁再随父迁至剑南道绵州。李白存世诗文千余篇，有《李太白集》传世。762年病逝，享年61岁。其墓在今安徽当涂，四川江油、湖北安陆有纪念馆。</div>
-							</div>
-						</div>
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="book_songs" v-if="curId === 6">
-						<div class="poetry_list">
-							<div class="poetry_picture">
-								<img src="../../../../static/images/86194a2f0b5aa3edf9f3995bbb8713aa.jpg" />
-							</div>
-							<div class="poetry_content">
-								<div class="poetry_title">李白</div>
-								<div class="poetry_intro">李白（701年－762年），字太白，号青莲居士，唐朝浪漫主义诗人，被后人誉为“诗仙”。祖籍陇西成纪(待考)，出生于西域碎叶城，4岁再随父迁至剑南道绵州。李白存世诗文千余篇，有《李太白集》传世。762年病逝，享年61岁。其墓在今安徽当涂，四川江油、湖北安陆有纪念馆。</div>
-							</div>
-						</div>
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
+							<el-pagination background layout="prev, pager, next" 
+							:total="page_index"
+							@current-change='current' >
 							</el-pagination>
 						</div>
 					</div>
@@ -136,6 +42,9 @@
 	import Header from '../../commons/Header.vue'
 	import Footer from '../../commons/Footer.vue'
 	import Banner from '../../commons/Banner.vue'
+
+	import apiUrl from '../../../api/api'
+
 	export default {
 		name: 'Author',
 		components: {
@@ -143,12 +52,58 @@
 		},
 		data() {
 			return {
-				curId: 0
-	
+				curId: 0,
+				Author_list: [],
+				// 分页数
+				page_index:10,
+				// 朝代
+				pcate_id: 1,
+				preiodCate:[],
+				// 请求页数
+				page_num: 1,
 			}
 		},
+		created() {
+			this.getAuthorList();
+			this.getPreiodCate();
+		},
 		methods: {
-	
+			// 获取朝代
+			getPreiodCate() {
+				this.$axios({
+					url:apiUrl.preiodCate_url
+				}).then((res) => {
+					if(res.code == 1) {
+						this.preiodCate = res.data;
+					}
+				})
+			},
+			// 获取作者列表
+			getAuthorList() {
+				this.$axios({
+					url:apiUrl.authors_url,
+					params: {
+						pcate_id: this.pcate_id,
+						page: this.page_num
+					}
+				}).then((res) => {
+					if(res.code == 1) {
+						this.Author_list = res.data.data;
+						this.page_index = res.data.page*10;
+					}
+				})
+			},
+			select(index,id) {
+				this.curId = index;
+				this.pcate_id = id;
+				this.pcate_id = id;
+				this.getAuthorList();
+			},
+			// 点击某一页
+			current:function(page) {
+				this.page_num = page;
+				this.getAuthorList()
+			}
 		}
 	
 	}

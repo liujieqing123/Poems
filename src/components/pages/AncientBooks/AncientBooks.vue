@@ -5,113 +5,27 @@
 			<div class="container">
 				<div class="main_content">
 					<div class="tab">
-						<div class="tab_item" @click="curId=0" :class="{'cur':curId === 0}">全部</div>
-						<div class="tab_item" @click="curId=1" :class="{'cur':curId === 1}">经部</div>
-						<div class="tab_item" @click="curId=2" :class="{'cur':curId === 2}">史部</div>
-						<div class="tab_item" @click="curId=3" :class="{'cur':curId === 3}">子部</div>
-						<div class="tab_item" @click="curId=4" :class="{'cur':curId === 4}">集部</div>
+						<div class="tab_item" @click="curId=0;bcate_id=1;getListData()" :class="{'cur':curId === 0}">全部</div>
+						<div class="tab_item" @click="selectType(typeItem,type_index)" :class="{'cur':curId === type_index*1+1}" v-for='(typeItem,type_index) in typeData' :key='type_index'>{{typeItem.bcate_name}}</div>
 					</div>
-					<div class="all_poetry" v-if="curId === 0">
+					<div class="all_poetry">
 						<div class="book_content">
-							<div class="book_list">
-								<div class="list_item" @click="ToDetail">
+							<div class="book_list" v-for='(listItem,list_index) in ListData' :key='list_index'>
+								<div class="list_item" @click="ToDetail(listItem.id)">
 									<div class="list_picture">
-										<img src="../../../../static/images/cXKdn9wioEJfA5VT7Ni7YiU0vQ7hGeGRYqg8Vq4O.jpeg" />
+										<img :src="listItem.image" />
 									</div>
 									<div class="list_intr">
-										<div class="book_name">论语</div>
-										<div class="book_intr">《论语》是儒家学派的经典著作之一，由孔子的弟子及其再传弟子编撰而成。它以语录体和对话文体为主，记录了孔子及其弟子言行，集中体现了孔子的政治主张、伦理思想、道德观念及教育原则等。与《大学》《中庸》《孟子》《诗经》《尚书》《礼记》《易经》《春秋》并称“四书五经”。通行本《论语》共二十篇。</div>
-									</div>
-								</div>
-							</div>
-							<div class="book_list">
-								<div class="list_item">
-									<div class="list_picture">
-										<img src="../../../../static/images/cXKdn9wioEJfA5VT7Ni7YiU0vQ7hGeGRYqg8Vq4O.jpeg" />
-									</div>
-									<div class="list_intr">
-										<div class="book_name">论语</div>
-										<div class="book_intr">《论语》是儒家学派的经典著作之一，由孔子的弟子及其再传弟子编撰而成。它以语录体和对话文体为主，记录了孔子及其弟子言行，集中体现了孔子的政治主张、伦理思想、道德观念及教育原则等。与《大学》《中庸》《孟子》《诗经》《尚书》《礼记》《易经》《春秋》并称“四书五经”。通行本《论语》共二十篇。</div>
+										<div class="book_name">{{listItem.title}}</div>
+										<div class="book_intr">{{listItem.book_resume}}</div>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="recommend_poetry" v-if="curId === 1">
-						<div class="book_content">
-							<div class="book_list">
-								<div class="list_item">
-									<div class="list_picture">
-										<img src="../../../../static/images/cXKdn9wioEJfA5VT7Ni7YiU0vQ7hGeGRYqg8Vq4O.jpeg" />
-									</div>
-									<div class="list_intr">
-										<div class="book_name">论语</div>
-										<div class="book_intr">《论语》是儒家学派的经典著作之一，由孔子的弟子及其再传弟子编撰而成。它以语录体和对话文体为主，记录了孔子及其弟子言行，集中体现了孔子的政治主张、伦理思想、道德观念及教育原则等。与《大学》《中庸》《孟子》《诗经》《尚书》《礼记》《易经》《春秋》并称“四书五经”。通行本《论语》共二十篇。</div>
-									</div>
-								</div>
-							</div>
-							<div class="book_list">
-								<div class="list_item">
-									<div class="list_picture">
-										<img src="../../../../static/images/cXKdn9wioEJfA5VT7Ni7YiU0vQ7hGeGRYqg8Vq4O.jpeg" />
-									</div>
-									<div class="list_intr">
-										<div class="book_name">论语</div>
-										<div class="book_intr">《论语》是儒家学派的经典著作之一，由孔子的弟子及其再传弟子编撰而成。它以语录体和对话文体为主，记录了孔子及其弟子言行，集中体现了孔子的政治主张、伦理思想、道德观念及教育原则等。与《大学》《中庸》《孟子》《诗经》《尚书》《礼记》《易经》《春秋》并称“四书五经”。通行本《论语》共二十篇。</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="poetry_dynasty" v-if="curId === 2">
-						<div class="book_content">
-							<div class="book_list">
-								<div class="list_item">
-									<div class="list_picture">
-										<img src="../../../../static/images/cXKdn9wioEJfA5VT7Ni7YiU0vQ7hGeGRYqg8Vq4O.jpeg" />
-									</div>
-									<div class="list_intr">
-										<div class="book_name">论语</div>
-										<div class="book_intr">《论语》是儒家学派的经典著作之一，由孔子的弟子及其再传弟子编撰而成。它以语录体和对话文体为主，记录了孔子及其弟子言行，集中体现了孔子的政治主张、伦理思想、道德观念及教育原则等。与《大学》《中庸》《孟子》《诗经》《尚书》《礼记》《易经》《春秋》并称“四书五经”。通行本《论语》共二十篇。</div>
-									</div>
-								</div>
-							</div>
-							<div class="book_list">
-								<div class="list_item">
-									<div class="list_picture">
-										<img src="../../../../static/images/cXKdn9wioEJfA5VT7Ni7YiU0vQ7hGeGRYqg8Vq4O.jpeg" />
-									</div>
-									<div class="list_intr">
-										<div class="book_name">论语</div>
-										<div class="book_intr">《论语》是儒家学派的经典著作之一，由孔子的弟子及其再传弟子编撰而成。它以语录体和对话文体为主，记录了孔子及其弟子言行，集中体现了孔子的政治主张、伦理思想、道德观念及教育原则等。与《大学》《中庸》《孟子》《诗经》《尚书》《礼记》《易经》《春秋》并称“四书五经”。通行本《论语》共二十篇。</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="song_poems" v-if="curId === 3">
-						
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="yuan_works" v-if="curId === 4">
-						
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
+							<el-pagination background layout="prev, pager, next" 
+							:total="total_index"
+							@current-change='current' >
 							</el-pagination>
 						</div>
 					</div>
@@ -125,6 +39,9 @@
 <script>
 	import Header from '../../commons/Header.vue'
 	import Footer from '../../commons/Footer.vue'
+
+	import apiUrl from '../../../api/api'
+
 	export default {
 		name: 'AncientBooks',
 		components: {
@@ -132,13 +49,62 @@
 		},
 		data() {
 			return {
-				curId: 0
-	
+				curId: 0,
+				typeData:[],
+				ListData: [],
+				bcate_id: 1,
+				// 分页数
+				total_index: 10,
+				page_index: 1
 			}
 		},
+		created() {
+			this.getListData();
+			this.getTypeData()
+		},
 		methods: {
-			ToDetail(){
-				this.$router.push('/AncientDetail')
+			ToDetail(id){
+				this.$router.push({
+          path: '/AncientDetail',
+          query: {
+            id: id
+          }
+        })
+			},
+			// 获取类目列表
+			getTypeData() {
+				this.$axios({
+					url:apiUrl.OldBookCate_url,
+				}).then((res) => {
+					if(res.code == 1) {
+						this.typeData = res.data;
+					}
+				})
+			},
+			// 获取古籍列表
+			getListData() {
+				this.$axios({
+					url:apiUrl.oldBookList_url,
+					params: {
+						bcate_id:this.bcate_id,
+						page:this.page_index
+					}
+				}).then((res) => {
+					if(res.code == 1) {
+						this.total_index = res.data.pageTotal*10;
+						this.ListData = res.data.data;
+					}
+				})
+			},
+			selectType(obj,index) {
+				this.bcate_id = obj.id;
+				this.curId = index*1+1;
+				this.getListData();
+			},
+			// 点击某一页
+			current:function(page) {
+				this.page_index =page;
+				this.getListData()
 			}
 		}
 	
@@ -222,6 +188,10 @@
 									}
 									.book_intr{
 										font-size: 14px;
+										display: -webkit-box;
+										-webkit-box-orient: vertical;
+										-webkit-line-clamp: 6;
+										overflow: hidden;
 									}
 								}
 							}

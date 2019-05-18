@@ -5,23 +5,25 @@
 			<div class="container">
 				<div class="ancient_books">
 					<div class="book_picture">
-						<img src="../../../../static/images/CFK6dpbXXhKpchDq9sX9ifAJ8gEmQmFzsGMU8CZY.jpeg" />
+						<img :src="detailData.image" />
 					</div>
 					<div class="book_content">
-						<div class="book_name">论语</div>
-						<div class="book_author">共14篇文章&nbsp;&nbsp;&nbsp;&nbsp;创建人：孔子及其弟子</div>
-						<div class="sentence">《论语》是儒家学派的经典著作之一，由孔子的弟子及其再传弟子编撰而成。</div>
+						<div class="book_name">{{detailData.title}}</div>
+						<div class="book_author">共{{detailData.book_article.length}}篇文章&nbsp;&nbsp;&nbsp;&nbsp;创建人：{{detailData.author}}</div>
+						<!-- <div class="book_author">共1篇文章&nbsp;&nbsp;&nbsp;&nbsp;创建人：{{detailData.author}}</div> -->
+						<div class="sentence">{{detailData.book_resume}}</div>
 					</div>
 				</div>
 				<div class="book_main">
 					<div class="article_list">
-						<div class="list_item">
-							<div class="number">1</div>
+						<div class="list_item" v-for='(item,index) in detailData.book_article' :key='index'>
+							<div class="number"><span>{{index*1+1}}</span></div>
 							<div class="list_content">
-								<div class="postname">学而篇</div>
-								<div class="intro">子曰：“学而时习之，不亦说乎？有朋自远方来，不亦乐乎？人不知而不愠，不亦君子乎？”</div>
-								<div class="author">作者：孔子及其弟子</div>
+								<div class="postname">{{item.title}}</div>
+								<div class="intro" v-html='item.content'></div>
+								<div class="author">作者：{{detailData.author}}</div>
 							</div>
+							<!-- <div class='list_but'>查看全部</div> -->
 						</div>
 					</div>
 					<div class="book_sort">
@@ -39,6 +41,9 @@
 <script>
 	import Header from '../../commons/Header.vue'
 	import Footer from '../../commons/Footer.vue'
+
+	import apiUrl from '../../../api/api'
+
 	export default {
 		name: 'AncientDetail',
 		components: {
@@ -46,12 +51,27 @@
 		},
 		data() {
 			return {
-				
-	
+				detailData:{},
 			}
+		},   
+		created() {
+			this.getData();
 		},
 		methods: {
-	
+			// 获取数据
+			getData() {
+				let Detail_id = this.$route.query.id;
+				this.$axios({
+					url:apiUrl.bookInfo_url,
+					params: {
+						id:Detail_id
+					}
+				}).then((res) => {
+					if(res.code == 1) {
+						this.detailData = res.data;
+					}
+				})
+			},
 		}
 	
 	}
@@ -105,16 +125,18 @@
 					margin-top: 40px;
 					.article_list{
 						width: 864px;
-						height: 400px;
+						// height: 400px;
 						border: 1px solid #ccc;
 						box-shadow: 0 0 4px #ddd;
 						background: #fff;
 						.list_item{
 							width: 844px;
+							// height: 200px;
+							overflow: hidden;
 							border-bottom: 1px dashed #ccc;
 							padding: 10px 10px;
 							display: flex;
-							justify-content: flex-start;
+							position: relative;
 							.number{
 								width: 32px;
 								height: 32px;
@@ -123,6 +145,24 @@
 								text-align: center;
 								line-height: 32px;
 								color: #fff;
+								span {
+									display: block;
+									width: 32px;
+									height: 32px;
+									border-radius: 50%;
+								}
+							}
+							.list_but {
+								border: 1px solid #999;
+								color: #999;
+								width: 100px;
+								height: 20px;
+								position: absolute;
+								bottom: 10px;
+								left: 50%;
+								transform: translateX(-50%);
+								border-radius: 5px;
+								text-align: center;
 							}
 						}
 						.list_content{

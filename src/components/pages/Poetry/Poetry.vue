@@ -5,123 +5,24 @@
 			<div class="container">
 				<div class="main_content">
 					<div class="tab">
-						<div class="tab_item" @click="curId=0" :class="{'cur':curId === 0}">全部</div>
-						<div class="tab_item" @click="curId=1" :class="{'cur':curId === 1}">推荐</div>
-						<div class="tab_item" @click="curId=2" :class="{'cur':curId === 2}">唐诗</div>
-						<div class="tab_item" @click="curId=3" :class="{'cur':curId === 3}">宋词</div>
-						<div class="tab_item" @click="curId=4" :class="{'cur':curId === 4}">元曲</div>
-						<div class="tab_item" @click="curId=5" :class="{'cur':curId === 5}">诗经</div>
-						<div class="tab_item" @click="curId=6" :class="{'cur':curId === 6}">现代诗文</div>
+						<div class="tab_item" @click="curId=0;bcate_id=1;getListData()" :class="{'cur':curId === 0}">全部</div>
+						<div class="tab_item" @click="selectType(typeItem,type_index)" :class="{'cur':curId === type_index*1+1}" v-for='(typeItem,type_index) in typeData' :key='type_index'>{{typeItem.pcate_name}}</div>
 					</div>
-					<div class="all_poetry" v-if="curId === 0">
-						<div class="poetry_list">
+					<div class="all_poetry">
+						<div class="poetry_list" v-for='(listItem,list_index) in ListData' :key='list_index' @click='ToDetail(listItem.id)'>
 							<div class="poetry_picture">
-								<img src="../../../../static/images/4a224b4140adbd819acc5cd20d9aedaf.jpg" />
+								<img :src="listItem.image" />
 							</div>
 							<div class="poetry_content">
-								<div class="poetry_title">水调歌头</div>
-								<div class="poetry_intro">水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头</div>
-								<div class="poetry_author">作者：杜甫</div>
+								<div class="poetry_title">{{listItem.title}}</div>
+								<div class="poetry_intro">{{listItem.description}}</div>
+								<div class="poetry_author">作者：{{listItem.author}}</div>
 							</div>
 						</div>
 						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="recommend_poetry" v-if="curId === 1">
-						<div class="poetry_list">
-							<div class="poetry_picture">
-								<img src="../../../../static/images/86194a2f0b5aa3edf9f3995bbb8713aa.jpg" />
-							</div>
-							<div class="poetry_content">
-								<div class="poetry_title">水调歌头</div>
-								<div class="poetry_intro">水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头</div>
-								<div class="poetry_author">作者：杜甫</div>
-							</div>
-						</div>
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="poetry_dynasty" v-if="curId === 2">
-						<div class="poetry_list">
-							<div class="poetry_picture">
-								<img src="../../../../static/images/4a224b4140adbd819acc5cd20d9aedaf.jpg" />
-							</div>
-							<div class="poetry_content">
-								<div class="poetry_title">水调歌头</div>
-								<div class="poetry_intro">水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头</div>
-								<div class="poetry_author">作者：杜甫</div>
-							</div>
-						</div>
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="song_poems" v-if="curId === 3">
-						<div class="poetry_list">
-							<div class="poetry_picture">
-								<img src="../../../../static/images/86194a2f0b5aa3edf9f3995bbb8713aa.jpg" />
-							</div>
-							<div class="poetry_content">
-								<div class="poetry_title">水调歌头</div>
-								<div class="poetry_intro">水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头</div>
-								<div class="poetry_author">作者：杜甫</div>
-							</div>
-						</div>
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="yuan_works" v-if="curId === 4">
-						<div class="poetry_list">
-							<div class="poetry_picture">
-								<img src="../../../../static/images/4a224b4140adbd819acc5cd20d9aedaf.jpg" />
-							</div>
-							<div class="poetry_content">
-								<div class="poetry_title">水调歌头</div>
-								<div class="poetry_intro">水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头</div>
-								<div class="poetry_author">作者：杜甫</div>
-							</div>
-						</div>
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="book_songs" v-if="curId === 5">
-						<div class="poetry_list">
-							<div class="poetry_picture">
-								<img src="../../../../static/images/86194a2f0b5aa3edf9f3995bbb8713aa.jpg" />
-							</div>
-							<div class="poetry_content">
-								<div class="poetry_title">水调歌头</div>
-								<div class="poetry_intro">水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头</div>
-								<div class="poetry_author">作者：杜甫</div>
-							</div>
-						</div>
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
-							</el-pagination>
-						</div>
-					</div>
-					<div class="book_songs" v-if="curId === 6">
-						<div class="poetry_list">
-							<div class="poetry_picture">
-								<img src="../../../../static/images/86194a2f0b5aa3edf9f3995bbb8713aa.jpg" />
-							</div>
-							<div class="poetry_content">
-								<div class="poetry_title">水调歌头</div>
-								<div class="poetry_intro">水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头水调歌头</div>
-								<div class="poetry_author">作者：杜甫</div>
-							</div>
-						</div>
-						<div class="paging">
-							<el-pagination background layout="prev, pager, next" :total="1000">
+							<el-pagination background layout="prev, pager, next" 
+							:total="total_index"
+							@current-change='current' >
 							</el-pagination>
 						</div>
 					</div>
@@ -135,6 +36,9 @@
 <script>
 	import Header from '../../commons/Header.vue'
 	import Footer from '../../commons/Footer.vue'
+
+	import apiUrl from '../../../api/api'
+
 	export default {
 		name: 'Sentence',
 		components: {
@@ -142,12 +46,63 @@
 		},
 		data() {
 			return {
-				curId:0
-	
+				curId:0,
+				ListData:[],
+				total_index: 10,
+				typeData:[],
+				bcate_id: 1,
+				// 请求页数
+				page_num: 1,
 			}
 		},
+		created() {
+			this.getListData();
+			this.getTypeData();
+		},
 		methods: {
-	
+			// 获取类目列表
+			getTypeData() {
+				this.$axios({
+					url:apiUrl.PoemCate_url,
+				}).then((res) => {
+					if(res.code == 1) {
+						this.typeData = res.data;
+					}
+				})
+			},
+			// 获取诗词列表
+			getListData() {
+				this.$axios({
+					url:apiUrl.poems_url,
+					params: {
+						pcate_id:this.bcate_id,
+						page:this.page_num
+					}
+				}).then((res) => {
+					if(res.code == 1) {
+						this.total_index = res.data.pageTotal*10;
+						this.ListData = res.data.data;
+					}
+				})
+			},
+			selectType(obj,index) {
+				this.bcate_id = obj.id;
+				this.curId = index*1+1;
+				this.getListData();
+			},
+			ToDetail(id){
+				this.$router.push({
+          path: '/DetailsPoetry',
+          query: {
+            poetryId: id
+          }
+        })
+			},
+			// 点击某一页
+			current:function(page) {
+				this.page_num = page;
+				this.getListData()
+			}
 		}
 	
 	}
